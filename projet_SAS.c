@@ -146,7 +146,7 @@ int rechercher(struct Joueur j[])
             {
                 if (strcmp(joueur_a_chercher, j[i].nom) == 0)
                 {
-                    printf(ANSI_COLOR_GREEN "\njoueur trouve: \n" ANSI_COLOR_RESET "%s %s || age: %d|| ID :%d || numero de maillot: %d || le post: %s || nombre des buts: %d \n", j[i].nom, j[i].prenom, j[i].age, j[i].id_joueur, j[i].numero_maillot, j[i].post, j[i].but);
+                    printf(ANSI_COLOR_GREEN "\njoueur trouve: " ANSI_COLOR_RESET "%s %s || age: %d|| ID :%d || numero de maillot: %d || le post: %s || nombre des buts: %d \n", j[i].nom, j[i].prenom, j[i].age, j[i].id_joueur, j[i].numero_maillot, j[i].post, j[i].but);
                     found = 1;
                     return i;
                 }
@@ -166,7 +166,7 @@ int rechercher(struct Joueur j[])
             {
                 if (id_a_chercher == j[i].id_joueur)
                 {
-                    printf(ANSI_COLOR_GREEN "\njoueur trouve: \n" ANSI_COLOR_RESET "%s %s || age: %d|| ID :%d || numero de maillot: %d || le post: %s || nombre des buts: %d \n", j[i].nom, j[i].prenom, j[i].age, j[i].id_joueur, j[i].numero_maillot, j[i].post, j[i].but);
+                    printf(ANSI_COLOR_GREEN "\njoueur trouve: " ANSI_COLOR_RESET "%s %s || age: %d|| ID :%d || numero de maillot: %d || le post: %s || nombre des buts: %d \n", j[i].nom, j[i].prenom, j[i].age, j[i].id_joueur, j[i].numero_maillot, j[i].post, j[i].but);
                     found = 1;
                     return i;
                 }
