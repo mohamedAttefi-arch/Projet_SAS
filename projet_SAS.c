@@ -3,6 +3,12 @@
 #include <ctype.h>
 #include <time.h>
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_RESET   "\x1b[0m" 
+
 char post[4][50] = {"gardien", "defenseur", "milieu", "attaquant"};
 int ID = 11;
 int cpt = 10;
@@ -17,7 +23,6 @@ struct Joueur
     int numero_maillot;
     int but;
 };
-
 struct Joueur j[50] = {
     {"Ronaldo", "Cristiano", "attaquant", 1, 38, 7, 1200},
     {"Messi", "Lionel", "attaquant", 2, 36, 10, 1300},
@@ -29,7 +34,6 @@ struct Joueur j[50] = {
     {"Ramos", "Sergio", "defenseur", 8, 35, 4, 100},
     {"Alisson", "Becker", "gardien", 9, 29, 1, 0},
     {"Lewandowski", "Robert", "attaquant", 10, 33, 9, 500}};
-
 void ajouter(struct Joueur j[])
 {
     int choix_poste;
@@ -66,11 +70,11 @@ void ajouter(struct Joueur j[])
 
         if (choix_poste < 1 || choix_poste > 4)
         {
-            printf("Choix invalide.\n");
+            printf(ANSI_COLOR_RED"Choix invalide.\n"ANSI_COLOR_RESET);
             return;
         }
         strcpy(j[i].post, post[choix_poste - 1]);
-        printf("le nom: %s %s       || le post: %s      || numero de maillot: %d        || les buts: %d\n", j[i].nom, j[i].prenom, j[i].post, j[i].numero_maillot, j[i].but);
+        
         j[i].id_joueur = ID;
         printf("ID du joueur: %d\n", j[i].id_joueur);
         ID++;
@@ -80,9 +84,8 @@ void ajouter(struct Joueur j[])
     }
     cpt += joueur_a_ajouter;
 
-    printf("joueur ajoute avec succes!\n");
+    printf(ANSI_COLOR_GREEN"joueur ajoute avec succes!\n"ANSI_COLOR_RESET);
 }
-
 int proposition_de_ajout(struct Joueur j[])
 {
     int choix_de_recherche;
@@ -91,10 +94,11 @@ int proposition_de_ajout(struct Joueur j[])
         printf("\t_________________________________________________\n");
         printf("\t||            PROPOSITION D'AJOUT              ||\n");
         printf("\t||_____________________________________________||\n");
-        printf("\t||ajouter d'abord des joueur                   ||\n");
-        printf("\t||voulez vous ajouter des joueur?              ||\n ");
-        printf("\t||1.pour ajouter                               ||\n");
-        printf("\t||2.pour retourner au menu principale          ||\n");
+        printf("\t||         ajouter d'abord des joueur          ||\n");
+        printf("\t||      voulez vous ajouter des joueur?        ||\n ");
+        printf("\t||                                             ||\n");
+        printf("\t||  1.pour ajouter                             ||\n");
+        printf("\t||  2.pour retourner au menu principale        ||\n");
         printf("\t||_____________________________________________||\n");
         printf("\tvotre choix:\n");
 
@@ -122,9 +126,9 @@ int rechercher(struct Joueur j[])
         printf("\t____________________________________________\n");
         printf("\t||          RECHERCHER UN JOUEUR          ||\n");
         printf("\t||________________________________________||\n");
-        printf("\t||1. Par nom                              ||\n");
-        printf("\t||2. Par ID                               ||\n");
-        printf("\t||0.pour revenir au menu principal        ||\n");
+        printf("\t||  1. Par nom                            ||\n");
+        printf("\t||  2. Par ID                             ||\n");
+        printf("\t||  0.pour revenir au menu principal      ||\n");
         printf("\t||________________________________________||\n");
         int choix;
         printf("Votre choix: ");
@@ -138,16 +142,16 @@ int rechercher(struct Joueur j[])
             getchar();
             for (int i = 0; i < cpt; i++)
             {
-                if (strcmp(joueur_a_chercher, j[i].nom) == 0)
+                if (strcasecmp(joueur_a_chercher, j[i].nom) == 0)
                 {
-                    printf("joueur trouve: %s\n", j[i].nom);
+                    printf(ANSI_COLOR_GREEN"joueur trouve: \n"ANSI_COLOR_RESET"%s", j[i].nom);
                     found = 1;
                     return i;
                 }
             }
             if (!found)
             {
-                printf("Joueur non trouve.\n");
+                printf(ANSI_COLOR_RED"Joueur non trouve.\n"ANSI_COLOR_RESET);
                 return -1;
             }
             break;
@@ -160,14 +164,14 @@ int rechercher(struct Joueur j[])
             {
                 if (id_a_chercher == j[i].id_joueur)
                 {
-                    printf("joueur trouve: %s\n", j[i].nom);
+                    printf(ANSI_COLOR_GREEN"joueur trouve: "ANSI_COLOR_RESET"%s\n", j[i].nom);
                     found = 1;
                     return i;
                 }
             }
             if (!found)
             {
-                printf("Joueur non trouve.\n");
+                printf(ANSI_COLOR_RED"Joueur non trouve.\n"ANSI_COLOR_RESET);
                 return -1;
             }
             break;
@@ -176,7 +180,7 @@ int rechercher(struct Joueur j[])
             break;
 
         default:
-            printf("Choix invalide.\n");
+            printf(ANSI_COLOR_RED"Choix invalide.\n"ANSI_COLOR_RESET);
         }
     }
 }
@@ -187,9 +191,9 @@ void modifier(struct Joueur j[])
     int nv_indice;
     if (1 && indice_a_modifier > -1)
     {
-        printf("\t--------------------------------------------------\n");
-        printf("\t||     BON JOUR DANS LE MENU DE MODIFICATION4     ||\n");
-        printf("\t||----------------------------------------------||\n");
+        printf("\t__________________________________________________\n");
+        printf("\t||             MENU DE MODIFICATION             ||\n");
+        printf("\t||______________________________________________||\n");
         printf("\t||1. Modifier le poste                          ||\n");
         printf("\t||2. Modifier l'age                             ||\n");
         printf("\t||3. Modifier le numero de maillot              ||\n");
@@ -216,10 +220,11 @@ void modifier(struct Joueur j[])
 
             if (choix_poste < 1 || choix_poste > 4)
             {
-                printf("Choix invalide.\n");
+                printf(ANSI_COLOR_RED"Choix invalide.\n"ANSI_COLOR_RESET);
                 return;
             }
             strcpy(j[indice_a_modifier].post, post[choix_poste - 1]);
+            printf(ANSI_COLOR_GREEN"le poste modifie avec succes!\n"ANSI_COLOR_RESET);
             break;
         case 2:
 
@@ -227,19 +232,19 @@ void modifier(struct Joueur j[])
             printf("Nouveau age: ");
             nv_indice = indice_a_modifier;
             scanf("%d", &j[nv_indice].age);
-            printf("l'age modifie avec succes!\n");
+            printf(ANSI_COLOR_GREEN"l'age modifie avec succes!\n"ANSI_COLOR_RESET);
             break;
         case 3:
             printf("le numero de maillot actuel est: %d\n", j[indice_a_modifier].numero_maillot);
             printf("Nouveau numero: ");
             scanf("%d", &j[nv_indice].numero_maillot);
-            printf("le numero modifie avec succes!\n");
+            printf(ANSI_COLOR_GREEN"le numero modifie avec succes!\n"ANSI_COLOR_RESET);
             break;
         case 4:
             printf("les buts actuel sont: %d\n", j[indice_a_modifier].but);
             printf("Nouveau numero: ");
             scanf("%d", &j[nv_indice].but);
-            printf("les but modifie avec succes!\n");
+            printf(ANSI_COLOR_GREEN"les but modifie avec succes!\n"ANSI_COLOR_RESET);
             break;
         case 0:
             printf("Retour au menu principal.\n");
@@ -248,7 +253,7 @@ void modifier(struct Joueur j[])
     }
     else if (0)
     {
-        printf("joueur introvable");
+        printf(ANSI_COLOR_RED"joueur introvable"ANSI_COLOR_RESET);
     }
 }
 void supprimer(struct Joueur j[])
@@ -262,11 +267,11 @@ void supprimer(struct Joueur j[])
             j[indice] = j[i + 1];
         }
         cpt--;
-        printf("\nle joueur est suprimmer\n");
+        printf(ANSI_COLOR_GREEN"\nle joueur est suprimmer\n"ANSI_COLOR_RESET);
     }
     else if (0)
     {
-        printf("joueur introuvable\n");
+        printf(ANSI_COLOR_RED"\njoueur introuvable\n"ANSI_COLOR_RESET);
     }
 }
 void afficher(struct Joueur j[])
@@ -274,17 +279,17 @@ void afficher(struct Joueur j[])
     proposition_de_ajout(j);
     if (cpt > 0)
     {
-        printf("\t________________________________________________\n");
-        printf("\t****************MENU D'AFFICHAGE****************\n");
-        printf("\t||____________________________________________||\n");
-        printf("\t||1. pour un ordre selon age                  ||\n");
-        printf("\t||2. pour un ordre selon numero de maillot    ||\n");
-        printf("\t||3. pour un ordre selon le nom               ||\n");
-        printf("\t||4. pour un ordre selon le poste             ||\n");
-        printf("\t||5. pour un ordre selon l'ID                 ||\n");
-        printf("\t||6. pour afficher tous les joueurs           ||\n");
-        printf("\t||0. pour revenir au menu principal           ||\n");
-        printf("\t||____________________________________________||\n");
+        printf("\t___________________________________________________\n");
+        printf("\t||                MENU D'AFFICHAGE               ||\n");
+        printf("\t||_______________________________________________||\n");
+        printf("\t||   1. pour un ordre selon age                  ||\n");
+        printf("\t||   2. pour un ordre selon numero de maillot    ||\n");
+        printf("\t||   3. pour un ordre selon le nom               ||\n");
+        printf("\t||   4. pour un ordre selon le poste             ||\n");
+        printf("\t||   5. pour un ordre selon l'ID                 ||\n");
+        printf("\t||   6. pour afficher tous les joueurs           ||\n");
+        printf("\t||   0. pour revenir au menu principal           ||\n");
+        printf("\t||______________________________________________||\n");
         int choix_affichage;
         printf("Votre choix: ");
         scanf("%d", &choix_affichage);
@@ -293,22 +298,29 @@ void afficher(struct Joueur j[])
         switch (choix_affichage)
         {
         case 1:
+            struct Joueur temp;
+            struct Joueur temp_joueur[50];
+            for (int K = 0; K < cpt; K++)
+            {
+                temp_joueur[K] = j[K];
+            }
+            
             for (int i = 0; i < cpt - 1; i++)
             {
                 for (int k = i + 1; k < cpt; k++)
                 {
-                    if (j[i].age > j[k].age)
+                    if (temp_joueur[i].age > temp_joueur[k].age)
                     {
-                        struct Joueur temp = j[i];
-                        j[i] = j[k];
-                        j[k] = temp;
+                        temp = temp_joueur[i];
+                        temp_joueur[i] = temp_joueur[k];
+                        temp_joueur[k] = temp;
                     }
                 }
             }
             printf("Joueurs par age:\n");
             for (int i = 0; i < cpt; i++)
             {
-                printf("le nom: %s %s        || Poste: %s || Age: %d || Numero de maillot: %d || ID: %d\n", j[i].nom, j[i].prenom, j[i].post, j[i].age, j[i].numero_maillot, j[i].id_joueur);
+                printf("le nom: %s %s \n Poste: %s \n Age: %d \n Numero de maillot: %d \n ID: %d\n", temp_joueur[i].nom, temp_joueur[i].prenom, temp_joueur[i].post, temp_joueur[i].age, temp_joueur[i].numero_maillot, temp_joueur[i].id_joueur);
             }
             break;
         case 2:
@@ -316,18 +328,18 @@ void afficher(struct Joueur j[])
             {
                 for (int k = i + 1; k < cpt; k++)
                 {
-                    if (j[i].numero_maillot > j[k].numero_maillot)
+                    if (temp_joueur[i].numero_maillot > temp_joueur[k].numero_maillot)
                     {
-                        struct Joueur temp = j[i];
-                        j[i] = j[k];
-                        j[k] = temp;
+                        temp = temp_joueur[i];
+                        temp_joueur[i] = temp_joueur[k];
+                        temp_joueur[k] = temp;
                     }
                 }
             }
             printf("par numero de maillot:\n");
             for (int i = 0; i < cpt; i++)
             {
-                printf("le nom: %s %s || Poste: %s || Age: %d || Numero de maillot: %d || ID: %d\n", j[i].nom, j[i].prenom, j[i].post, j[i].age, j[i].numero_maillot, j[i].id_joueur);
+                printf("le nom: %s %s || Poste: %s || Age: %d || Numero de maillot: %d || ID: %d\n", temp_joueur[i].nom, temp_joueur[i].prenom, temp_joueur[i].post, temp_joueur[i].age, temp_joueur[i].numero_maillot, temp_joueur[i].id_joueur);
             }
             break;
         case 3:
@@ -336,18 +348,18 @@ void afficher(struct Joueur j[])
             {
                 for (int k = i + 1; k < cpt; k++)
                 {
-                    if (strcmp(j[i].nom, j[k].nom) > 0)
+                    if (strcasecmp(temp_joueur[i].nom, temp_joueur[k].nom) > 0)
                     {
-                        struct Joueur temp = j[i];
-                        j[i] = j[k];
-                        j[k] = temp;
+                        temp = temp_joueur[i];
+                        temp_joueur[i] = temp_joueur[k];
+                        temp_joueur[k] = temp;
                     }
                 }
             }
             printf("Joueur par nom:\n");
             for (int i = 0; i < cpt; i++)
             {
-                printf("%s %s || Poste: %s || Age: %d || Numero de maillot: %d || ID: %d\n", j[i].nom, j[i].prenom, j[i].post, j[i].age, j[i].numero_maillot, j[i].id_joueur);
+                printf("%s %s || Poste: %s || Age: %d || Numero de maillot: %d || ID: %d\n", temp_joueur[i].nom, temp_joueur[i].prenom, temp_joueur[i].post, temp_joueur[i].age, temp_joueur[i].numero_maillot, temp_joueur[i].id_joueur);
             }
             break;
         case 4:
@@ -363,16 +375,16 @@ void afficher(struct Joueur j[])
             getchar();
             if (choix_poste < 1 || choix_poste > 4)
             {
-                printf("Choix invalide.\n");
+                printf(ANSI_COLOR_RED"Choix invalide.\n"ANSI_COLOR_RESET);
                 return;
             }
             printf("voici les joueur qui ont ce post: \n");
             int found = 0;
             for (int i = 0; i < cpt; i++)
             {
-                if (strcmp(j[i].post, post[choix_poste - 1]) == 0)
+                if (strcmp(temp_joueur[i].post, post[choix_poste - 1]) == 0)
                 {
-                    printf("Nom: %s %s || ID: %d || les buts: %d || numero de maillot: %d\n", j[i].nom, j[i].prenom, j[i].id_joueur, j[i].but, j[i].numero_maillot);
+                    printf("Nom: %s %s || ID: %d || les buts: %d || numero de maillot: %d\n", temp_joueur[i].nom, temp_joueur[i].prenom, temp_joueur[i].id_joueur, temp_joueur[i].but, temp_joueur[i].numero_maillot);
                     found = 1;
                 }
             }
@@ -382,11 +394,11 @@ void afficher(struct Joueur j[])
             {
                 for (int k = i + 1; k < cpt; k++)
                 {
-                    if (j[i].id_joueur > j[k].id_joueur)
+                    if (temp_joueur[i].id_joueur > temp_joueur[k].id_joueur)
                     {
-                        struct Joueur temp = j[i];
-                        j[i] = j[k];
-                        j[k] = temp;
+                        temp = temp_joueur[i];
+                        temp_joueur[i] = j[k];
+                        temp_joueur[k] = temp;
                     }
                 }
             }
@@ -402,25 +414,24 @@ void afficher(struct Joueur j[])
         case 0:
             return;
         default:
-            printf("Choix invalide.\n");
+            printf(ANSI_COLOR_RED"\nChoix invalide.\n"ANSI_COLOR_RESET);
             break;
         }
     }
 }
-
 void statistique(struct Joueur j[])
 {
     proposition_de_ajout(j);
-    printf("\t_________________________________________________________\n");
-    printf("\t||                MENU DES STATISTIQUES                ||\n");
-    printf("\t||_____________________________________________________||\n");
-    printf("\t||1. Afficher le nombre total de joueurs dans l'equipe.||\n");
-    printf("\t||2. Afficher l'age moyen des joueurs.                 ||\n");
-    printf("\t||3. Afficher les joueurs ayant marque plus de X buts. ||\n");
-    printf("\t||4. Afficher le meilleur buteur.                      ||\n");
-    printf("\t||5. Afficher le joueur le plus jeune et le plus age.  ||\n");
-    printf("\t||0. pour retourner au menu principale.                ||\n");
-    printf("\t||_____________________________________________________||\n");
+    printf("\t____________________________________________________________\n");
+    printf("\t||                  MENU DES STATISTIQUES                 ||\n");
+    printf("\t||________________________________________________________||\n");
+    printf("\t||   1. Afficher le nombre total de joueurs dans l'equipe.||\n");
+    printf("\t||   2. Afficher l'age moyen des joueurs.                 ||\n");
+    printf("\t||   3. Afficher les joueurs ayant marque plus de X buts. ||\n");
+    printf("\t||   4. Afficher le meilleur buteur.                      ||\n");
+    printf("\t||   5. Afficher le joueur le plus jeune et le plus age.  ||\n");
+    printf("\t||   0. pour retourner au menu principale.                ||\n");
+    printf("\t||________________________________________________________||\n");
     int choix_statistique;
     printf("votre choix: \n");
     scanf("%d", &choix_statistique);
@@ -446,7 +457,7 @@ void statistique(struct Joueur j[])
         getchar();
         for (int i = 0; i < cpt; i++)
         {
-            if (j[i].but >= X)
+            if (j[i].but > X)
             {
                 printf("voici les joueur qui ont marque plus de %d buts: \n", X);
                 for (int i = 0; i < cpt; i++)
@@ -456,7 +467,7 @@ void statistique(struct Joueur j[])
             }
             else
             {
-                printf("aucun joueur a marque %d ou plus de %d buts\n", X, X);
+                printf("aucun joueur a marque plus de %d buts\n", X);
             }
         }
         break;
@@ -518,11 +529,10 @@ void statistique(struct Joueur j[])
         printf("Retour au menu principal.\n");
         break;
     default:
-        printf("choix invalide\n");
+        printf(ANSI_COLOR_RED"choix invalide\n"ANSI_COLOR_RESET);
         break;
     }
 }
-
 void menu()
 {
     int choix;
@@ -565,7 +575,7 @@ void menu()
             printf("Au revoir!");
             break;
         default:
-            printf("Choix invalide! Veuillez reessayer.");
+            printf(ANSI_COLOR_RED"Choix invalide! Veuillez reessayer."ANSI_COLOR_RESET);
             break;
         }
     } while (choix != 0);
